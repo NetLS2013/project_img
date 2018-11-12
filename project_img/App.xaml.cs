@@ -1,4 +1,5 @@
 ﻿using System;
+using project_img.Views.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace project_img
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new Signup();
         }
 
         protected override void OnStart()
