@@ -1,4 +1,5 @@
 ﻿using System;
+using project_img.Helpers;
 using project_img.Views.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,7 +13,14 @@ namespace project_img
         {
             InitializeComponent();
 
-            MainPage = new Signup();
+            var startPage = typeof(Signup);
+
+            if (Equals(Settings.Get(Settings.Key.IsLogged), true))
+            {
+                startPage = typeof(AddImage);
+            }
+
+            MainPage = (Page)Activator.CreateInstance(startPage);
         }
 
         protected override void OnStart()

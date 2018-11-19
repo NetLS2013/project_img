@@ -9,26 +9,26 @@ using Xamarin.Forms;
 
 namespace project_img.Views.Pages
 {
-    public partial class Signup : ContentPage
+    public partial class AddImage : ContentPage
     {
-        public AuthorizationViewModel ViewModel { get; set; }
+        public ImageViewModel ViewModel { get; set; }
 
         MediaFile _mediaFile;
         TapGestureRecognizer _tapAvatarImage;
 
-        public Signup()
+        public AddImage()
         {
             InitializeComponent();
 
-            BindingContext = ViewModel = new AuthorizationViewModel(this);
+            BindingContext = ViewModel = new ImageViewModel(this);
 
             _tapAvatarImage = new TapGestureRecognizer();
-            _tapAvatarImage.Tapped += AvatarImage_Tapped;
+            _tapAvatarImage.Tapped += Image_Tapped;
 
-            Avatar.GestureRecognizers.Add(_tapAvatarImage);
+            Image.GestureRecognizers.Add(_tapAvatarImage);
         }
 
-        async void AvatarImage_Tapped(object sender, EventArgs e)
+        async void Image_Tapped(object sender, EventArgs e)
         {
             var request = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
@@ -41,8 +41,8 @@ namespace project_img.Views.Pages
                 if (_mediaFile == null)
                     return;
 
-                ViewModel.Avatar = _mediaFile;
-                Avatar.Source = ImageSource.FromStream(_mediaFile.GetStream);
+                ViewModel.Image = _mediaFile;
+                Image.Source = ImageSource.FromStream(_mediaFile.GetStream);
             }
         }
     }

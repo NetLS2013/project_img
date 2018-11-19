@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="project_img.Views.Commons.Container"
     BackgroundColor="#eeeeee"
-    Padding="22"
+    Padding="24"
     Spacing="0"
     Orientation="Vertical"
     />
