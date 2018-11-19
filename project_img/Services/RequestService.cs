@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
@@ -53,8 +54,9 @@ namespace project_img.Services
                     return (default(TSuccess), await DeserializeObject<TError>(response));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.WriteLine($"--- Error: {e.StackTrace}");
                 DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
 
                 return (default(TSuccess), default(TError));
@@ -91,8 +93,9 @@ namespace project_img.Services
                     return (default(TSuccess), await DeserializeObject<TError>(response));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.WriteLine($"--- Error: {e.StackTrace}");
                 DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
 
                 return (default(TSuccess), default(TError));
@@ -135,8 +138,9 @@ namespace project_img.Services
                     return (default(TSucces), await DeserializeObject<TError>(response));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.WriteLine($"--- Error: {e.StackTrace}");
                 DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
 
                 return (default(TSucces), default(TError));

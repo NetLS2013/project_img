@@ -13,29 +13,31 @@ namespace project_img
         {
             InitializeComponent();
 
-            var startPage = typeof(Signup);
+            var startPage = typeof(AddImage);
 
-            if (Equals(Settings.Get(Settings.Key.IsLogged), true))
+            if (Equals(Settings.Get(Settings.Key.IsLogged), false))
             {
-                startPage = typeof(AddImage);
+                startPage = typeof(Signin);
+            } 
+            else if (Settings.Get(Settings.Key.IsLogged) == null)
+            {
+                startPage = typeof(Signup);
             }
 
-            MainPage = (Page)Activator.CreateInstance(startPage);
+            SetMainPage((Page) Activator.CreateInstance(startPage));
         }
 
-        protected override void OnStart()
+        public static void SetMainPage(Page page)
         {
+            var navigationPage = new NavigationPage(page);
 
+            Current.MainPage = navigationPage;
         }
 
-        protected override void OnSleep()
-        {
+        protected override void OnStart() {}
 
-        }
+        protected override void OnSleep() {}
 
-        protected override void OnResume()
-        {
-
-        }
+        protected override void OnResume() {}
     }
 }

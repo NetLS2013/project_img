@@ -26,7 +26,8 @@ namespace project_img.ViewModels
         string _password;
         MediaFile _avatar;
 
-        public ICommand SignUpCommand => new Command(async () => await SignUpHundle());
+        public ICommand SignUpCommand => new Command(async () => await CreateHundle());
+        public ICommand SignInCommand => new Command(async () => await LoginHundle());
 
         public AuthorizationViewModel(Page context)
         {
@@ -127,8 +128,50 @@ namespace project_img.ViewModels
             return result.IsValid;
         }
 
+        private async Task LoginHundle()
+        {
+            var validator = new ValidationHelper();
 
-        private async Task SignUpHundle()
+            try
+            {
+                var loginRequest = new LoginModel.R
+                {
+                    Email = _email,
+                    Password = _password
+                };
+
+                var (success, error) = await _requestProvider
+                    .PostAsync<LoginModel.R, LoginModel.S, LoginModel.E>(
+                        GlobalSetting.Instance.SignInEndpoint,
+                        loginRequest
+                    );
+
+                if (error != null)
+                {
+                    validator.AddRule(nameof(Email), () => RuleResult.Invalid(error.Error));
+                }
+
+                if (!Validate(validator))
+                {
+                    return;
+                }
+
+                if (success != null)
+                {
+                    await Settings.Set(Settings.Key.IsLogged, true);
+                    await Settings.Set(Settings.Key.Avatar, success.Avatar);
+                    await Settings.Set(Settings.Key.Token, success.Token);
+
+                    App.SetMainPage(new ContentPage());
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"--- Error: {e.StackTrace}");
+            }
+        }
+
+        private async Task CreateHundle()
         {
             var validator = new ValidationHelper();
 
@@ -166,7 +209,7 @@ namespace project_img.ViewModels
                     await Settings.Set(Settings.Key.Avatar, success.Avatar);
                     await Settings.Set(Settings.Key.Token, success.Token);
 
-                    await _context.Navigation.PushAsync(new ContentPage());
+                    App.SetMainPage(new ContentPage());
                 }
             }
             catch (Exception e)

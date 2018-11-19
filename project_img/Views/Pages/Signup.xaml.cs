@@ -28,6 +28,11 @@ namespace project_img.Views.Pages
             Avatar.GestureRecognizers.Add(_tapAvatarImage);
         }
 
+        void Signin_Clicked(object sender, System.EventArgs e)
+        {
+            App.SetMainPage(new Signin());
+        }
+
         async void AvatarImage_Tapped(object sender, EventArgs e)
         {
             var request = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);

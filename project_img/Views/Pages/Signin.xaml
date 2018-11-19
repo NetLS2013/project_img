@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="project_img.Views.Pages.Signup"
+    x:Class="project_img.Views.Pages.Signin"
     xmlns:commons="clr-namespace:project_img.Views.Commons;assembly=project_img"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     NavigationPage.HasNavigationBar="false"
@@ -10,20 +10,11 @@
     <commons:Container
         Spacing="8"
         >
-        <controls:CircleImage
-            x:Name="Avatar"
-            Source="user_icon.png"
-            WidthRequest="150"
-            HeightRequest="150"
-            />
-        <Entry
-            Text="{Binding UserName}"
-            Placeholder="User Name"
-            />
         <Entry
             Text="{Binding Email}"
             Placeholder="E-mail"
             Keyboard="Email"
+            Margin="0,150,0,0"
             />
         <Entry
             Text="{Binding Password}"
@@ -32,12 +23,12 @@
             Margin="0,0,0,30"
             />
         <Button
-            Command="{Binding SignUpCommand}"
-            Text="Signup"
+            Command="{Binding SignInCommand}"
+            Text="Signin"
             />
         <Button
-            Clicked="Signin_Clicked"
-            Text="Signin"
+            Clicked="Signup_Clicked"
+            Text="Signup"
             BackgroundColor="#cfcfcf"
             />
         <commons:ValidationErrors

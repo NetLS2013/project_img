@@ -10,7 +10,6 @@
         >
         <StackLayout
             BackgroundColor="#b6b6b6"
-            HeightRequest="175"
             Padding="3"
             >
             <StackLayout
@@ -22,8 +21,7 @@
                     x:Name="Image"
                     Source="thumbnail.png"
                     Aspect="AspectFill"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand"
+                    HeightRequest="175"
                     />
             </StackLayout>
         </StackLayout>
