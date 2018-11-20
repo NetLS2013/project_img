@@ -1,0 +1,48 @@
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="project_img.Views.Commons.Thumbnail"
+    BackgroundColor="#a2a2a2"
+    Padding="2"
+    >
+    <StackLayout
+        Spacing="0"
+        BackgroundColor="#d8d8d8"
+        >
+        <RelativeLayout>
+            <Image
+                x:Name="ImageHeightThumb"
+                RelativeLayout.WidthConstraint=
+                    "{ ConstraintExpression Type = RelativeToParent, Property = Width, Factor = 1 }"
+                Aspect="AspectFill"
+                Source="thumbnail.png"
+                />
+            <Image
+                x:Name="ImageHeight"
+                RelativeLayout.WidthConstraint=
+                    "{ ConstraintExpression Type = RelativeToParent, Property = Width, Factor = 1 }"
+                Aspect="AspectFill"
+                Source="{Binding SmallImagePath}"
+                />
+        </RelativeLayout>
+        <StackLayout
+            VerticalOptions="EndAndExpand"
+            Spacing="0"
+            BackgroundColor="#ffffff"
+            Padding="4,1,0,2"
+            >
+            <Label
+                x:Name="LabelWeather"
+                HorizontalOptions="Fill"
+                Text="{Binding Parameters.Weather}"
+                FontAttributes="Bold"
+                />
+            <Label
+                x:Name="LabelAddress"
+                HorizontalOptions="Fill"
+                Text="Kyiv, Ukraine"
+                TextColor="#d7d7d7"
+                />
+        </StackLayout>
+    </StackLayout>
+</StackLayout>

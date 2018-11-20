@@ -8,6 +8,8 @@ using Plugin.Media.Abstractions;
 using project_img.Helpers;
 using project_img.Models.Image;
 using project_img.Services;
+using project_img.Views.Pages;
+using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
 namespace project_img.ViewModels
@@ -27,6 +29,7 @@ namespace project_img.ViewModels
         ObservableCollection<GalleryModel.S.Image> _images;
 
         public ICommand UploadCommand => new Command(async () => await UploadHundle());
+        public ICommand ImageTappedCommand => new Command(async (param) => await ImageHundle(param));
 
         public ImageViewModel(Page context)
         {
@@ -136,6 +139,10 @@ namespace project_img.ViewModels
             }
         }
 
+        public GalleryModel.S.ParametersRoot Parameters { get; set; }
+        public string SmallImagePath { get; private set; }
+
+
         public ValidationErrorCollection Errors
         {
             get
@@ -170,6 +177,18 @@ namespace project_img.ViewModels
             if (success != null)
             {
                 Images = new ObservableCollection<GalleryModel.S.Image>(success.Images);
+            }
+        }
+
+        private async Task ImageHundle(object tappedItem)
+        {
+            var item = tappedItem as GalleryModel.S.Image;
+            if (item != null)
+            {
+                Parameters = item.Parameters;
+                SmallImagePath = item.BigImagePath;
+
+                await _context.Navigation.PushPopupAsync(new ViewImage(this));
             }
         }
 

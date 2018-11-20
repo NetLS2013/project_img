@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="project_img.Views.Pages.Gallery"
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+    xmlns:commons="clr-namespace:project_img.Views.Commons;assembly=project_img"
     >
     <StackLayout
         Padding="10"
@@ -13,7 +14,7 @@
             FlowColumnCount="2"
             SeparatorVisibility="None"
             HasUnevenRows="true"
-            FlowItemTappedCommand="{Binding ItemTappedCommand}"
+            FlowItemTappedCommand="{Binding ImageTappedCommand}"
             FlowItemsSource="{Binding Images}"
             >
             <flv:FlowListView.FlowColumnTemplate>
@@ -27,50 +28,10 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <StackLayout
-                            BackgroundColor="#b6b6b6"
-                            Padding="2"
-                            >
-                            <StackLayout
-                                Spacing="0"
-                                BackgroundColor="#d8d8d8"
-                                >
-                                <RelativeLayout>
-                                    <Image
-                                        RelativeLayout.WidthConstraint=
-                                            "{ ConstraintExpression Type = RelativeToParent, Property = Width, Factor = 1 }"
-                                        HeightRequest="100"
-                                        Aspect="AspectFill"
-                                        Source="thumbnail.png"
-                                        />
-                                    <Image
-                                        RelativeLayout.WidthConstraint=
-                                            "{ ConstraintExpression Type = RelativeToParent, Property = Width, Factor = 1 }"
-                                        HeightRequest="100"
-                                        Aspect="AspectFill"
-                                        Source="{Binding SmallImagePath}"
-                                        />
-                                </RelativeLayout>
-                                <StackLayout
-                                    VerticalOptions="EndAndExpand"
-                                    Spacing="0"
-                                    BackgroundColor="#ffffff"
-                                    Padding="4,1,0,2"
-                                    >
-                                    <Label
-                                        HorizontalOptions="Fill"
-                                        Text="{Binding Parameters.Weather}"
-                                        FontSize="10"
-                                        FontAttributes="Bold"
-                                        />
-                                    <Label
-                                        HorizontalOptions="Fill"
-                                        Text="Kyiv, Ukraine"
-                                        FontSize="10"
-                                        />
-                                </StackLayout>
-                            </StackLayout>
-                        </StackLayout>
+                        <commons:Thumbnail
+                            ThumbImageHeight="100"
+                            ThumbFontSize="10"
+                            />
                     </Grid>
                 </DataTemplate>
             </flv:FlowListView.FlowColumnTemplate>

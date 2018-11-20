@@ -7,6 +7,7 @@ using Plugin.Permissions;
 using ImageCircle.Forms.Plugin.Droid;
 using DLToolkit.Forms.Controls;
 using CrossCurrentActivity = Plugin.CurrentActivity.CrossCurrentActivity;
+using Rg.Plugins.Popup;
 
 namespace project_img.Droid
 {
@@ -28,6 +29,8 @@ namespace project_img.Droid
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            Popup.Init(this, savedInstanceState);
+
             ImageCircleRenderer.Init();
             FlowListView.Init();
 
