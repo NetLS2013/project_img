@@ -108,7 +108,7 @@ namespace project_img.Services
             }
         }
 
-        public async Task<(TSucces, TError)> PostFormDataAsync<TData, TSucces, TError>(string uri, TData data, Stream stream)
+        public async Task<(TSucces, TError)> PostFormDataAsync<TData, TSucces, TError>(string uri, TData data, Stream stream, string fileName)
         {
             HttpResponseMessage response;
 
@@ -125,7 +125,7 @@ namespace project_img.Services
 
                 if (stream != null)
                 {
-                    content.Add(new StreamContent(stream), "\"avatar\"", "\"avatar.png\""); //TODO delete hard typed variable
+                    content.Add(new StreamContent(stream), $"\"{fileName}\"", $"\"{fileName}.png\""); //TODO: get file extension from mime-type
                 }
 
                 var keyValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(data));

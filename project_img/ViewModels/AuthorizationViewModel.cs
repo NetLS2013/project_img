@@ -11,6 +11,7 @@ using Plugin.Media.Abstractions;
 using project_img.Helpers;
 using project_img.Models.Authorization;
 using project_img.Services;
+using project_img.Views.Pages;
 using Xamarin.Forms;
 
 namespace project_img.ViewModels
@@ -162,7 +163,7 @@ namespace project_img.ViewModels
                     await Settings.Set(Settings.Key.Avatar, success.Avatar);
                     await Settings.Set(Settings.Key.Token, success.Token);
 
-                    App.SetMainPage(new ContentPage());
+                    App.SetMainPage(new Gallery());
                 }
             }
             catch (Exception e)
@@ -187,7 +188,8 @@ namespace project_img.ViewModels
                     .PostFormDataAsync<CreateModel.R, CreateModel.S, CreateModel.E>(
                         GlobalSetting.Instance.SignUpEndpoint,
                         createRequest,
-                        _avatar?.GetStream()
+                        _avatar?.GetStream(),
+                        "avatar"
                     );
 
                 if (error != null)
@@ -209,7 +211,7 @@ namespace project_img.ViewModels
                     await Settings.Set(Settings.Key.Avatar, success.Avatar);
                     await Settings.Set(Settings.Key.Token, success.Token);
 
-                    App.SetMainPage(new ContentPage());
+                    App.SetMainPage(new Gallery());
                 }
             }
             catch (Exception e)

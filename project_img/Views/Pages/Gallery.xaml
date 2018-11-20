@@ -6,35 +6,47 @@
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
     xmlns:commons="clr-namespace:project_img.Views.Commons;assembly=project_img"
     >
-    <StackLayout
-        Padding="10"
-        BackgroundColor="#eeeeee"
-        >
-        <flv:FlowListView
-            FlowColumnCount="2"
-            SeparatorVisibility="None"
-            HasUnevenRows="true"
-            FlowItemTappedCommand="{Binding ImageTappedCommand}"
-            FlowItemsSource="{Binding Images}"
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Gif"
+            Clicked="GenerateGif_Clicked"
+            />
+        <ToolbarItem
+            Text="Add"
+            Clicked="AddImage_Clicked"
+            />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout
+            Padding="10"
+            BackgroundColor="#eeeeee"
             >
-            <flv:FlowListView.FlowColumnTemplate>
-                <DataTemplate>
-                    <Grid
-                        Padding="10"
-                        >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <commons:Thumbnail
-                            ThumbImageHeight="100"
-                            ThumbFontSize="10"
-                            />
-                    </Grid>
-                </DataTemplate>
-            </flv:FlowListView.FlowColumnTemplate>
-        </flv:FlowListView>
-    </StackLayout>
+            <flv:FlowListView
+                FlowColumnCount="2"
+                SeparatorVisibility="None"
+                HasUnevenRows="true"
+                FlowItemTappedCommand="{Binding ImageTappedCommand}"
+                FlowItemsSource="{Binding Images}"
+                >
+                <flv:FlowListView.FlowColumnTemplate>
+                    <DataTemplate>
+                        <Grid
+                            Padding="10"
+                            >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <commons:Thumbnail
+                                ThumbImageHeight="100"
+                                ThumbFontSize="10"
+                                />
+                        </Grid>
+                    </DataTemplate>
+                </flv:FlowListView.FlowColumnTemplate>
+            </flv:FlowListView>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

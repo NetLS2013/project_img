@@ -16,11 +16,11 @@ namespace project_img.Views.Pages
         MediaFile _mediaFile;
         TapGestureRecognizer _tapAvatarImage;
 
-        public AddImage()
+        public AddImage(ImageViewModel viewModel)
         {
             InitializeComponent();
 
-            BindingContext = ViewModel = new ImageViewModel(this);
+            BindingContext = ViewModel = viewModel;
 
             _tapAvatarImage = new TapGestureRecognizer();
             _tapAvatarImage.Tapped += Image_Tapped;

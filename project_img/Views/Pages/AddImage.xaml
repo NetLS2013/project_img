@@ -5,38 +5,46 @@
     x:Class="project_img.Views.Pages.AddImage"
     xmlns:commons="clr-namespace:project_img.Views.Commons;assembly=project_img"
     >
-    <commons:Container
-        Spacing="8"
-        >
-        <StackLayout
-            BackgroundColor="#b6b6b6"
-            Padding="3"
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Upload"
+            Command="{Binding UploadCommand}"
+            />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <commons:Container
+            Spacing="8"
             >
             <StackLayout
-                BackgroundColor="#d8d8d8"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand"
+                BackgroundColor="#b6b6b6"
+                Padding="3"
                 >
-                <Image
-                    x:Name="Image"
-                    Source="thumbnail.png"
-                    Aspect="AspectFill"
-                    HeightRequest="175"
-                    />
+                <StackLayout
+                    BackgroundColor="#d8d8d8"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    >
+                    <Image
+                        x:Name="Image"
+                        Source="thumbnail.png"
+                        Aspect="AspectFill"
+                        HeightRequest="175"
+                        />
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
-        
-        <Entry
-            Margin="0,16,0,0"
-            Text="{Binding Description}"
-            Placeholder="Descripption"
-            />
-        <Entry
-            Text="{Binding HashTag}"
-            Placeholder="#hashtag"
-            />
-        <commons:ValidationErrors
-            ItemsSource="{Binding Errors}"
-            />
-    </commons:Container>
+            
+            <Entry
+                Margin="0,16,0,0"
+                Text="{Binding Description}"
+                Placeholder="Descripption"
+                />
+            <Entry
+                Text="{Binding HashTag}"
+                Placeholder="#hashtag"
+                />
+            <commons:ValidationErrors
+                ItemsSource="{Binding Errors}"
+                />
+        </commons:Container>
+    </ContentPage.Content>
 </ContentPage>

@@ -169,14 +169,21 @@ namespace project_img.ViewModels
 
         private async Task LoadAll()
         {
-            var (success, error) = await _requestProvider
-                .GetAsync<GalleryModel.R, GalleryModel.S, GalleryModel.E>(
-                    GlobalSetting.Instance.ImageAllEndpoint
-                );
-
-            if (success != null)
+            try
             {
-                Images = new ObservableCollection<GalleryModel.S.Image>(success.Images);
+                var (success, error) = await _requestProvider
+                    .GetAsync<GalleryModel.R, GalleryModel.S, GalleryModel.E>(
+                        GlobalSetting.Instance.ImageAllEndpoint
+                    );
+
+                if (success != null)
+                {
+                    Images = new ObservableCollection<GalleryModel.S.Image>(success.Images);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"--- Error: {e.StackTrace}");
             }
         }
 
@@ -202,15 +209,16 @@ namespace project_img.ViewModels
                 {
                     Description = _description,
                     Hashtag = _hashtag,
-                    Latitude = "48.9215", //TODO: get location from image or hardware gps
-                    Longitude = "24.70972"
+                    Latitude = 48.9215, //TODO: get location from image or hardware gps
+                    Longitude = 24.70972
                 };
 
                 var (success, error) = await _requestProvider
                     .PostFormDataAsync<ImageModel.R, ImageModel.S, ImageModel.E>(
-                        GlobalSetting.Instance.SignUpEndpoint,
+                        GlobalSetting.Instance.ImageEndpoint,
                         createRequest,
-                        _image?.GetStream()
+                        _image?.GetStream(),
+                        "image"
                     );
 
                 if (error != null)
@@ -229,6 +237,7 @@ namespace project_img.ViewModels
 
                 if (success != null)
                 {
+                    await LoadAll();
                     await _context.Navigation.PopAsync();
                 }
             }

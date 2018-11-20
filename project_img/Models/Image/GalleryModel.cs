@@ -42,10 +42,10 @@ namespace project_img.Models.Image
             {
 
                 [JsonProperty("longitude")]
-                public int Longitude { get; set; }
+                public double Longitude { get; set; }
 
                 [JsonProperty("latitude")]
-                public int Latitude { get; set; }
+                public double Latitude { get; set; }
 
                 [JsonProperty("weather")]
                 public string Weather { get; set; }
