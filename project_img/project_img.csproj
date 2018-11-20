@@ -1,14 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -16,6 +13,7 @@
     <PackageReference Include="MvvmValidation" Version="3.1.0" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
+    <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.11" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -33,5 +31,7 @@
     <Compile Remove="Views\Common.cs" />
     <Compile Remove="Models\Authorization\CreateErrorModel.cs" />
     <Compile Remove="Models\Image.cs" />
+    <Compile Remove="Views\Pages\Gallery.cs" />
+    <Compile Remove="ViewModels\GalleryViewModel.cs" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,7 +22,9 @@ namespace project_img.ViewModels
         string _hashtag;
         string _latitude;
         string _longitude;
+
         MediaFile _image;
+        ObservableCollection<GalleryModel.S.Image> _images;
 
         public ICommand UploadCommand => new Command(async () => await UploadHundle());
 
@@ -29,6 +32,8 @@ namespace project_img.ViewModels
         {
             _context = context;
             _requestProvider = new RequestService();
+
+            Task.Run(LoadAll);
         }
 
 
@@ -117,6 +122,20 @@ namespace project_img.ViewModels
             }
         }
 
+        public ObservableCollection<GalleryModel.S.Image> Images
+        {
+            get
+            {
+                return _images;
+            }
+            set
+            {
+                _images = value;
+
+                OnPropertyChanged(nameof(Images));
+            }
+        }
+
         public ValidationErrorCollection Errors
         {
             get
@@ -141,6 +160,18 @@ namespace project_img.ViewModels
             return result.IsValid;
         }
 
+        private async Task LoadAll()
+        {
+            var (success, error) = await _requestProvider
+                .GetAsync<GalleryModel.R, GalleryModel.S, GalleryModel.E>(
+                    GlobalSetting.Instance.ImageAllEndpoint
+                );
+
+            if (success != null)
+            {
+                Images = new ObservableCollection<GalleryModel.S.Image>(success.Images);
+            }
+        }
 
         private async Task UploadHundle()
         {
@@ -179,8 +210,6 @@ namespace project_img.ViewModels
 
                 if (success != null)
                 {
-                    //TODO: better store in sqlite, and caching image
-
                     await _context.Navigation.PopAsync();
                 }
             }

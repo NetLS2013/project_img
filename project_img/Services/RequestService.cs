@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Plugin.Connectivity;
+using project_img.Helpers;
 using project_img.Interfaces;
 using Xamarin.Forms;
 
@@ -43,26 +44,27 @@ namespace project_img.Services
                 return (default(TSuccess), default(TError));
             }
 
-            var httpClient = CreateHttpClient();
-
-            try
+            using (var httpClient = CreateHttpClient())
             {
-                response = await httpClient.GetAsync(uri);
-
-                if (!response.IsSuccessStatusCode)
+                try
                 {
-                    return (default(TSuccess), await DeserializeObject<TError>(response));
+                    response = await httpClient.GetAsync(uri);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return (default(TSuccess), await DeserializeObject<TError>(response));
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"--- Error: {e.StackTrace}");
-                DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"--- Error: {e.StackTrace}");
+                    DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
 
-                return (default(TSuccess), default(TError));
-            }
+                    return (default(TSuccess), default(TError));
+                }
 
-            return (await DeserializeObject<TSuccess>(response), default(TError));
+                return (await DeserializeObject<TSuccess>(response), default(TError));
+            }
         }
 
         public async Task<(TSuccess, TError)> PostAsync<TData, TSuccess, TError>(string uri, TData data)
@@ -76,32 +78,34 @@ namespace project_img.Services
                 return (default(TSuccess), default(TError));
             }
 
-            var httpClient = CreateHttpClient();
-            var content = new StringContent(JsonConvert.SerializeObject(data))
+            using (var httpClient = CreateHttpClient())
             {
-                Headers = {
-                    ContentType = new MediaTypeHeaderValue("application/json")
-                }
-            };
-
-            try
-            {
-                response = await httpClient.PostAsync(uri, content);
-
-                if (!response.IsSuccessStatusCode)
+                var content = new StringContent(JsonConvert.SerializeObject(data))
                 {
-                    return (default(TSuccess), await DeserializeObject<TError>(response));
+                    Headers = {
+                        ContentType = new MediaTypeHeaderValue("application/json")
+                    }
+                };
+
+                try
+                {
+                    response = await httpClient.PostAsync(uri, content);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return (default(TSuccess), await DeserializeObject<TError>(response));
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"--- Error: {e.StackTrace}");
-                DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"--- Error: {e.StackTrace}");
+                    DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
 
-                return (default(TSuccess), default(TError));
-            }
+                    return (default(TSuccess), default(TError));
+                }
 
-            return (await DeserializeObject<TSuccess>(response), default(TError));
+                return (await DeserializeObject<TSuccess>(response), default(TError));
+            }
         }
 
         public async Task<(TSucces, TError)> PostFormDataAsync<TData, TSucces, TError>(string uri, TData data, Stream stream)
@@ -115,38 +119,40 @@ namespace project_img.Services
                 return (default(TSucces), default(TError));
             }
 
-            var httpClient = CreateHttpClient();
-            var content = new MultipartFormDataContent();
-
-            if (stream != null)
+            using (var httpClient = CreateHttpClient())
             {
-                content.Add(new StreamContent(stream), "\"avatar\"", "\"avatar.png\""); //TODO delete hard typed variable
-            }
+                var content = new MultipartFormDataContent();
 
-            var keyValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(data));
-            foreach (var keyValuePair in keyValues)
-            {
-                content.Add(new StringContent(keyValuePair.Value ?? ""), String.Format($"\"{keyValuePair.Key}\""));
-            }
-
-            try
-            {
-                response = await httpClient.PostAsync(uri, content);
-
-                if (!response.IsSuccessStatusCode)
+                if (stream != null)
                 {
-                    return (default(TSucces), await DeserializeObject<TError>(response));
+                    content.Add(new StreamContent(stream), "\"avatar\"", "\"avatar.png\""); //TODO delete hard typed variable
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"--- Error: {e.StackTrace}");
-                DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
 
-                return (default(TSucces), default(TError));
-            }
+                var keyValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(data));
+                foreach (var keyValuePair in keyValues)
+                {
+                    content.Add(new StringContent(keyValuePair.Value ?? ""), String.Format($"\"{keyValuePair.Key}\""));
+                }
 
-            return (await DeserializeObject<TSucces>(response), default(TError));
+                try
+                {
+                    response = await httpClient.PostAsync(uri, content);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return (default(TSucces), await DeserializeObject<TError>(response));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"--- Error: {e.StackTrace}");
+                    DependencyService.Get<IAlertService>().Short("Something wrong. Try again later.");
+
+                    return (default(TSucces), default(TError));
+                }
+
+                return (await DeserializeObject<TSucces>(response), default(TError));
+            }
         }
 
         private async Task<TResult> DeserializeObject<TResult>(HttpResponseMessage responseMessage)
@@ -161,6 +167,11 @@ namespace project_img.Services
             var httpClient = new HttpClient();
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            if (Settings.Get(Settings.Key.Token) != null)
+            {
+                httpClient.DefaultRequestHeaders.Add("token", (string) Settings.Get(Settings.Key.Token));
+            }
 
             return httpClient;
         }

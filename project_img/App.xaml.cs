@@ -13,7 +13,7 @@ namespace project_img
         {
             InitializeComponent();
 
-            var startPage = typeof(AddImage);
+            var startPage = typeof(Gallery);
 
             if (Equals(Settings.Get(Settings.Key.IsLogged), false))
             {

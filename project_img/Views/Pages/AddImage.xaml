@@ -35,11 +35,6 @@
             Text="{Binding HashTag}"
             Placeholder="#hashtag"
             />
-        <Button
-            Command="{Binding UploadCommand}"
-            Text="Upload"
-            Margin="0,30,0,0"
-            />
         <commons:ValidationErrors
             ItemsSource="{Binding Errors}"
             />
