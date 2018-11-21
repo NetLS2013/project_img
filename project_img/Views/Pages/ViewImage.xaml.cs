@@ -8,10 +8,9 @@ namespace project_img.Views.Pages
 {
     public partial class ViewImage : PopupPage
     {
-        public ViewImage(BaseViewModel viewModel)
+        public ViewImage(ImageViewModel viewModel)
         {
             InitializeComponent();
-
             BindingContext = viewModel;
         }
     }

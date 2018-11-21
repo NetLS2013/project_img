@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using project_img.CustomRenderer;
 using Xamarin.Forms;
 
 namespace project_img.Views.Commons
 {
-    public partial class Thumbnail : StackLayout
+    public partial class Thumbnail : BorderLayout
     {
         public double ThumbImageHeight
         {
@@ -39,7 +39,6 @@ namespace project_img.Views.Commons
         private static void ImageHeightPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (Thumbnail) bindable;
-            control.ImageHeightThumb.HeightRequest = Convert.ToDouble(newValue);
             control.ImageHeight.HeightRequest = Convert.ToDouble(newValue);
         }
 

@@ -18,7 +18,7 @@ namespace project_img
             if (Equals(Settings.Get(Settings.Key.IsLogged), false))
             {
                 startPage = typeof(Signin);
-            } 
+            }
             else if (Settings.Get(Settings.Key.IsLogged) == null)
             {
                 startPage = typeof(Signup);

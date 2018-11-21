@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmValidation;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 using Plugin.Media.Abstractions;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using project_img.Helpers;
+using project_img.Interfaces;
 using project_img.Models.Image;
 using project_img.Services;
 using project_img.Views.Pages;
@@ -26,6 +33,7 @@ namespace project_img.ViewModels
         string _longitude;
 
         MediaFile _image;
+
         ObservableCollection<GalleryModel.S.Image> _images;
 
         public ICommand UploadCommand => new Command(async () => await UploadHundle());
@@ -138,11 +146,6 @@ namespace project_img.ViewModels
                 OnPropertyChanged(nameof(Images));
             }
         }
-
-        public GalleryModel.S.ParametersRoot Parameters { get; set; }
-        public string SmallImagePath { get; private set; }
-
-
         public ValidationErrorCollection Errors
         {
             get
@@ -156,6 +159,12 @@ namespace project_img.ViewModels
                 OnPropertyChanged(nameof(Errors));
             }
         }
+
+
+        public GalleryModel.S.ParametersRoot Parameters { get; set; }
+        public string SmallImagePath { get; private set; }
+
+        public ImageSource GeneratedGif { get; private set; }
 
 
         private bool Validate(ValidationHelper validator)
@@ -187,6 +196,26 @@ namespace project_img.ViewModels
             }
         }
 
+        public async Task GenerateGif()
+        {
+            try
+            {
+                var (success, error) = await _requestProvider
+                    .GetAsync<GifModel.R, GifModel.S, GifModel.E>(
+                        GlobalSetting.Instance.GifEndpoint
+                    );
+
+                if (success != null)
+                {
+                    GeneratedGif = ImageSource.FromUri(new Uri(success.Gif));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"--- Error: {e.StackTrace}");
+            }
+        }
+
         private async Task ImageHundle(object tappedItem)
         {
             var item = tappedItem as GalleryModel.S.Image;
@@ -205,12 +234,20 @@ namespace project_img.ViewModels
 
             try
             {
+                Position position = new Position();
+                var request = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+
+                if (request[Permission.Location] == PermissionStatus.Granted)
+                {
+                    position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(5));
+                }
+
                 var createRequest = new ImageModel.R
                 {
                     Description = _description,
                     Hashtag = _hashtag,
-                    Latitude = 48.9215, //TODO: get location from image or hardware gps
-                    Longitude = 24.70972
+                    Latitude = position.Latitude,
+                    Longitude = position.Longitude
                 };
 
                 var (success, error) = await _requestProvider

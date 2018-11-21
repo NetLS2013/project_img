@@ -15,6 +15,12 @@
             Text="Add"
             Clicked="AddImage_Clicked"
             />
+        <ToolbarItem
+            Order="Secondary"
+            Text="Logout"
+            Priority="0"
+            Clicked="Logout_Clicked"
+            />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout

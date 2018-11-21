@@ -6,8 +6,9 @@ using Android.OS;
 using Plugin.Permissions;
 using ImageCircle.Forms.Plugin.Droid;
 using DLToolkit.Forms.Controls;
-using CrossCurrentActivity = Plugin.CurrentActivity.CrossCurrentActivity;
 using Rg.Plugins.Popup;
+using Plugin.CurrentActivity;
+using FFImageLoading.Forms.Platform;
 
 namespace project_img.Droid
 {
@@ -33,6 +34,7 @@ namespace project_img.Droid
 
             ImageCircleRenderer.Init();
             FlowListView.Init();
+            CachedImageRenderer.Init(false);
 
             LoadApplication(new App());
         }

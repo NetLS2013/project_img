@@ -10,6 +10,7 @@ namespace project_img
         public string SignInEndpoint { get; private set; }
         public string ImageEndpoint { get; private set; }
         public string ImageAllEndpoint { get; private set; }
+        public string GifEndpoint { get; private set; }
 
         GlobalSetting()
         {
@@ -27,6 +28,7 @@ namespace project_img
             SignInEndpoint = $"{dotItEndpoint}/login";
             ImageEndpoint = $"{dotItEndpoint}/image";
             ImageAllEndpoint = $"{dotItEndpoint}/all";
+            GifEndpoint = $"{dotItEndpoint}/gif";
         }
 
         class Nested

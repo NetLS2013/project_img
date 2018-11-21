@@ -4,13 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     x:Class="project_img.Views.Pages.GenerateGif"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:renderer="clr-namespace:project_img.CustomRenderer;assembly=project_img"
+    BackgroundColor="#bfeeeeee"
     >
-    <StackLayout
+    <renderer:BorderLayout
         Margin="30"
-        BackgroundColor="White"
-        VerticalOptions="CenterAndExpand">
-        <Label
-            Text="GIF"
+        VerticalOptions="CenterAndExpand"
+        HeightRequest="250"
+        >
+        <ff:CachedImage
+            Aspect="AspectFit"
+            Source="{Binding GeneratedGif}"
+            DownsampleToViewSize="True"
+            LoadingPlaceholder="gif_icon.png"
+            ErrorPlaceholder="gif_icon.png"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
             />
-    </StackLayout>
+    </renderer:BorderLayout>
 </pages:PopupPage>

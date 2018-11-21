@@ -5,6 +5,7 @@
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:commons="clr-namespace:project_img.Views.Commons;assembly=project_img"
     x:Class="project_img.Views.Pages.ViewImage"
+    BackgroundColor="#bfeeeeee"
     >
     <StackLayout
         Margin="30"
